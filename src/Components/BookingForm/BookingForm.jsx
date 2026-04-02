@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-const BookingForm = () => {
+const BookingForm = ({ dentistId }) => {
     const [form, setForm] = useState({
         name: '',
         date: '',
@@ -14,7 +14,7 @@ const BookingForm = () => {
     const handleSubmit = (e) => {
         e.preventDefault()
 
-        if (!form.name || !form.time || form.date) {
+        if (!form.name || !form.date || !form.time) {
             alert('fill all the fields')
             return
         }
