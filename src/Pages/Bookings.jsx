@@ -9,11 +9,11 @@ const Bookings = () => {
     }, [])
 
     return (
-        <div>
+        <div className="bookings">
             <h2>All Bookings</h2>
 
             {bookings.map((b) => (
-                <div key={b.id}>
+                <div key={b.id} className="ind-bookings">
                     <p>{b.name}</p>
                     <p>{b.date}</p>
                     <p>{b.time}</p>

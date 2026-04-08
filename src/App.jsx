@@ -3,6 +3,7 @@ import Home from './Pages/Home'
 import Booking from './Pages/Booking'
 import Bookings from './Pages/Bookings'
 import Navbar from './Components/Navbar/Navbar'
+import './Styles/Variables.css'
 
 function App() {
   return (

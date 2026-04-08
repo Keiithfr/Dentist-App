@@ -1,0 +1,21 @@
+.bookingform {
+    display: flex;
+    flex-direction: column;
+    max-width: 400px;
+    width: 100%;
+    font-weight: var(--weight-medium);
+}
+
+.bookingform input {
+    border-radius: var(--radius);
+    padding: var(--space-sm);
+    font-size: var(--text-md);
+}
+
+.bookingform button {
+    padding: var(--space-sm);
+    border-radius: var(--radius);
+    font-size: var(--text-md);
+    font-family: 'Courier New', Courier, monospace;
+    font-weight: var(--weight-bold);
+}

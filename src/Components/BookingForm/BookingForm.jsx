@@ -1,4 +1,5 @@
 import { useState } from "react";
+import styles from './BookingForm.module.css'
 
 const BookingForm = ({ dentistId }) => {
     const [form, setForm] = useState({
@@ -40,7 +41,7 @@ const BookingForm = ({ dentistId }) => {
     }
 
     return (
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} className={styles.bookingform}>
             <input name="name" placeholder="Name" onChange={handleChange} />
             <input type="date" name="date" onChange={handleChange} />
             <input type="time" name="time" onChange={handleChange} />
