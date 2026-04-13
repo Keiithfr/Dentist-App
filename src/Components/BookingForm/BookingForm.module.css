@@ -18,4 +18,22 @@
     font-size: var(--text-md);
     font-family: 'Courier New', Courier, monospace;
     font-weight: var(--weight-bold);
+    cursor: pointer;
+}
+
+.message {
+    padding: var(--space-sm);
+    border-radius: var(--radius-sm);
+    margin-bottom: var(--space-sm);
+    font-weight: var(--weight-medium);
+}
+
+.success {
+    background-color: #d4edda;
+    color: #155724;
+}
+
+.error {
+    background-color: #f8d7da;
+    color: #721c24;
 }
