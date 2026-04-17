@@ -4,9 +4,10 @@ const Bookings = () => {
     const [bookings, setBookings] = useState([])
 
     useEffect(() => {
-        const data = JSON.parse(localStorage.getItem('bookings')) || []
-        setBookings(data)
-    }, [])
+        fetch(`${import.meta.env.VITE_API_URL}/bookings`)
+            .then(res => res.json())
+            .then(data => setBookings(data));
+    }, []);
 
     return (
         <div className="bookings">

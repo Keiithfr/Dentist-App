@@ -28,7 +28,7 @@ const BookingForm = ({ dentistId }) => {
 
     const [loading, setLoading] = useState(false);
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault()
 
         if (!form.name || !form.date || !form.time) {
@@ -37,34 +37,34 @@ const BookingForm = ({ dentistId }) => {
             return
         }
 
-        const bookings = JSON.parse(localStorage.getItem('bookings')) || []
+        setLoading(true)
 
-        const exists = bookings.find(
-            (b) => b.date === form.date && b.time === form.time
-        )
+        try {
+            const res = await fetch("https://dentist-app-backend-41o7.onrender.com/bookings", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    ...form,
+                    dentistId,
+                    id: Date.now()
+                }),
+            });
+            if (!res.ok) throw new Error("Failed")
 
-        if (exists) {
-            setMessage('Time already booked')
+            setMessage("Booking successful")
+            setType("success")
+            setForm({ name: "", date: "", time: "" });
+            setTimeout(() => {
+                navigate("/bookings")
+            }, 1000);
+        } catch (err) {
+            setMessage("Something went wrong")
             setType("error")
-            return
-        }
-
-        const newBooking = {
-            ...form, dentistId, id: Date.now
-        }
-
-        bookings.push(newBooking)
-        localStorage.setItem('bookings', JSON.stringify(bookings))
-        setMessage("Booking successful!")
-        setType("success")
-        setForm({ name: "", date: "" });
-
-        setLoading(true);
-        setTimeout(() => {
+        } finally {
             setLoading(false)
-            navigate("/bookings")
-
-        }, 1000);
+        }
     }
 
     return (
@@ -73,7 +73,9 @@ const BookingForm = ({ dentistId }) => {
             <input type="date" name="date" onChange={handleChange} />
             <input type="time" name="time" onChange={handleChange} />
 
-            <button type="submit">Book</button>
+            <button type="submit" disabled={loading}>
+                {loading ? "Booking..." : "Book"}
+            </button>
 
             {
                 message && (
