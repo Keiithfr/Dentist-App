@@ -5,9 +5,9 @@ const Booking = () => {
     const { id } = useParams()
 
     return (
-        <div className="booking"> 
+        <div className="booking">
             <h2>Booking Dentist ID:{id}</h2>
-            <BookingForm dentistId={id} />
+            <BookingForm dentistId={dentist.id} />
         </div>
     )
 }
