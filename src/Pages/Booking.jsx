@@ -7,7 +7,7 @@ const Booking = () => {
     return (
         <div className="booking">
             <h2>Booking Dentist ID:{id}</h2>
-            <BookingForm dentistId={dentist.id} />
+            <BookingForm dentistId={id} />
         </div>
     )
 }
