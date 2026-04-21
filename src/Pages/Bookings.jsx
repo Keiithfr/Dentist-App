@@ -2,11 +2,17 @@ import { useEffect, useState } from "react";
 
 const Bookings = () => {
     const [bookings, setBookings] = useState([])
+    let userId = localStorage.getItem("userId")
+    if (!userId) {
+        userId = crypto.randomUUID();
+        localStorage.setItem("userId", userId);
+    }
 
     useEffect(() => {
-        fetch(`${import.meta.env.VITE_API_URL}/bookings`)
+        fetch(`${import.meta.env.VITE_API_URL}/bookings?userId=${userId}`)
             .then(res => res.json())
             .then(data => setBookings(data));
+        console.log("userId:", userId)
     }, []);
 
     return (
@@ -14,7 +20,7 @@ const Bookings = () => {
             <h2>All Bookings</h2>
 
             {bookings.map((b) => (
-                <div key={b.id} className="ind-bookings">
+                <div key={b._id} className="ind-bookings">
                     <p>{b.name}</p>
                     <p>{b.date}</p>
                     <p>{b.time}</p>

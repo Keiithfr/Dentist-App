@@ -10,6 +10,12 @@ const BookingForm = ({ dentistId }) => {
     })
     const [message, setMessage] = useState("")
     const [type, setType] = useState("")
+    let userId = localStorage.getItem("userId");
+
+    if (!userId) {
+        userId = crypto.randomUUID()
+        localStorage.setItem("userId", userId)
+    }
 
     useEffect(() => {
         if (message) {
@@ -40,7 +46,7 @@ const BookingForm = ({ dentistId }) => {
         setLoading(true)
 
         try {
-            const res = await fetch("https://dentist-app-backend-41o7.onrender.com/bookings", {
+            const res = await fetch(`${import.meta.env.VITE_API_URL}/bookings`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -48,7 +54,7 @@ const BookingForm = ({ dentistId }) => {
                 body: JSON.stringify({
                     ...form,
                     dentistId,
-                    id: Date.now()
+                    userId,
                 }),
             });
             if (!res.ok) throw new Error("Failed")
@@ -84,7 +90,7 @@ const BookingForm = ({ dentistId }) => {
                     </p>
                 )
             }
-            {/* why like this */}
+
         </form>
 
 
