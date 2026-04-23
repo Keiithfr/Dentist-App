@@ -10,10 +10,14 @@ const Bookings = () => {
 
     useEffect(() => {
         fetch(`${import.meta.env.VITE_API_URL}/bookings?userId=${userId}`)
-            .then(res => res.json())
-            .then(data => setBookings(data));
+            .then(res => {
+                if (!res.ok) throw new Errror("Failed to fetch");
+                return res.json();
+            })
+            .then(data => setBookings(data))
+            .catch(err => console.error(err));
         console.log("userId:", userId)
-    }, []);
+    }, [userId]);
 
     return (
         <div className="bookings">
