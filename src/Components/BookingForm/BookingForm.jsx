@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
-import { useNavigate } from 'react-router-dom'
-import styles from './BookingForm.module.css'
+import { useNavigate } from 'react-router-dom';
+import styles from './BookingForm.module.css';
 
 const BookingForm = ({ dentistId }) => {
     const [form, setForm] = useState({
