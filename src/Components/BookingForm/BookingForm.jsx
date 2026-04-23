@@ -57,7 +57,9 @@ const BookingForm = ({ dentistId }) => {
                     userId,
                 }),
             });
-            if (!res.ok) throw new Error("Failed")
+
+            const data = await res.json();
+            if (!res.ok) throw new Error(data.message)
 
             setMessage("Booking successful")
             setType("success")
@@ -66,7 +68,7 @@ const BookingForm = ({ dentistId }) => {
                 navigate("/bookings")
             }, 1000);
         } catch (err) {
-            setMessage("Something went wrong")
+            setMessage(err.message)
             setType("error")
         } finally {
             setLoading(false)
