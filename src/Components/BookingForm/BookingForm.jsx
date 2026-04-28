@@ -50,12 +50,9 @@ const BookingForm = ({ dentistId }) => {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
+                    Authorization: `Bearer ${token}`,
                 },
-                body: JSON.stringify({
-                    ...form,
-                    dentistId,
-                    userId,
-                }),
+                body: JSON.stringify(form),
             });
 
             const data = await res.json();
