@@ -17,7 +17,7 @@ const Bookings = () => {
             })
             .then(data => setBookings(data))
             .catch(err => console.error(err));
-        console.log("userId:", userId)
+
     }, []);
 
     return (
