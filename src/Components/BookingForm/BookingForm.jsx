@@ -37,6 +37,13 @@ const BookingForm = ({ dentistId }) => {
     const handleSubmit = async (e) => {
         e.preventDefault()
 
+        const token = localStorage.getItem("token");
+        if (!token) {
+            setMessage("Please login to make an appointment");
+            setType("error");
+            return;
+        }
+
         if (!form.name || !form.date || !form.time) {
             setMessage("Please fill in all the fields")
             setType("error")
@@ -52,11 +59,14 @@ const BookingForm = ({ dentistId }) => {
                     "Content-Type": "application/json",
                     Authorization: `Bearer ${token}`,
                 },
-                body: JSON.stringify(form),
+                body: JSON.stringify({
+                    ...form,
+                    dentistId,
+                }),
             });
 
             const data = await res.json();
-            if (!res.ok) throw new Error(data.message)
+            if (!res.ok) throw new Error(data.message || "Booking failed");
 
             setMessage("Booking successful")
             setType("success")
