@@ -1,8 +1,10 @@
 import { useState } from "react";
+import { useNavigate, Link } from "react-router-dom";
 
 const Signup = () => {
     const [form, setForm] = useState({ email: "", password: "" });
     const [message, setMessage] = useState("");
+    const navigate = useNavigate();
 
     const handleChange = (e) => {
         setForm({ ...form, [e.target.name]: e.target.value });
@@ -23,7 +25,9 @@ const Signup = () => {
             const data = await res.json();
             if (!res.ok) throw new Error(data.message)
 
-            setMessage("Signup successful.You can now log in.");
+            localStorage.setItem("token", data.token);
+            setForm({ email: "", password: "" })
+            navigate("/bookings");
 
         } catch (err) {
             setMessage(err.message)
@@ -31,7 +35,7 @@ const Signup = () => {
     };
 
     return (
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} className="signup-form">
             <h2>Signup</h2>
             <input
                 name="email"
@@ -39,9 +43,13 @@ const Signup = () => {
                 onChange={handleChange} />
             <input
                 name="password"
+                type="password"
                 placeholder="password"
                 onChange={handleChange} />
             <button type="submit">Signup</button>
+            <p>
+                Already have an account?<Link to="/Login">Login</Link>
+            </p>
             {message && <p>{message}</p>}
         </form>
     );
