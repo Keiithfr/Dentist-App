@@ -38,6 +38,7 @@ const Login = () => {
     return (
         <form onSubmit={handleSubmit} className="login-form">
             <h2>Login</h2>
+            <h2>Login</h2>
             <input
                 name="email"
                 placeholder="Email"
