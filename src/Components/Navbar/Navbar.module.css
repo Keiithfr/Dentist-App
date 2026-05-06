@@ -1,12 +1,61 @@
 .navbar {
     display: flex;
-    align-items: center;
     justify-content: space-between;
-    padding: var(--space-lg);
+    align-items: center;
+    padding: var(--space-md) var(--space-lg);
+    max-width: 100%;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: var(--weight-bold);
+    font-size: var(--text-lg);
+    color: var(--text);
+
+}
+
+.icon {
+    font-weight: var(--weight-bold);
+    font-size: var(--text-lg);
+    color: var(--text);
+}
+
+.navLinks {
+    display: flex;
+    gap: var(--space-md);
+    align-items: center;
 }
 
 .link {
-    font-size: var(--text-xl);
+    text-decoration: none;
+    color: var(--text);
+    font-size: var(--text-md);
+    transition: opacity 0.2s ease;
+}
+
+.link:hover {
+    opacity: 0.6;
+}
+
+.button {
+    padding: var(--space-sm);
+    border: 1px solid var(--text);
+    background: transparent;
+    transition: var(--transition);
+    cursor: pointer;
     color: var(--text);
 
+}
+
+.button:hover {
+    background: var(--text);
+    color: var(--bg);
+}
+
+.hamburger {
+    display: none;
+    cursor: pointer;
+    font-size: var(--text-xl);
 }
