@@ -1,10 +1,13 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { useNavigate, Link } from "react-router-dom";
+import { AuthContext } from "../context/AuthContext";
 
 const Signup = () => {
     const [form, setForm] = useState({ email: "", password: "" });
     const [message, setMessage] = useState("");
     const navigate = useNavigate();
+    const [loading, setLoading] = useState(false);
+    const { login } = useContext(AuthContext);
 
     const handleChange = (e) => {
         setForm({ ...form, [e.target.name]: e.target.value });
@@ -12,6 +15,8 @@ const Signup = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setLoading(true);
+        setMessage("");
 
         try {
             const res = await fetch(`${import.meta.env.VITE_API_URL}/signup`, {
@@ -25,12 +30,14 @@ const Signup = () => {
             const data = await res.json();
             if (!res.ok) throw new Error(data.message)
 
-            localStorage.setItem("token", data.token);
+            login(data.token);
             setForm({ email: "", password: "" })
             navigate("/bookings");
 
         } catch (err) {
-            setMessage(err.message)
+            setMessage(err.message);
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -40,13 +47,17 @@ const Signup = () => {
             <input
                 name="email"
                 placeholder="Email"
-                onChange={handleChange} />
+                onChange={handleChange}
+                value={form.email}
+                disabled={loading} />
             <input
                 name="password"
                 type="password"
                 placeholder="password"
-                onChange={handleChange} />
-            <button type="submit">Signup</button>
+                onChange={handleChange}
+                value={form.password}
+                disabled={loading} />
+            <button type="submit" disabled={loading}>{loading ? "Creating account..." : "Sign up"}</button>
             <p>
                 Already have an account?<Link to="/Login">Login</Link>
             </p>

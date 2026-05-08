@@ -1,11 +1,17 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
+import { AuthContext } from "../context/AuthContext";
 
 
 const Login = () => {
+    const navigate = useNavigate();
+    const { login } = useContext(AuthContext);
+
+
     const [form, setForm] = useState({ email: "", password: "" });
     const [message, setMessage] = useState("");
-    const navigate = useNavigate();
+    const [loading, setLoading] = useState(false);
+
 
     const handleChange = (e) => {
         setForm({ ...form, [e.target.name]: e.target.value })
@@ -13,6 +19,9 @@ const Login = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+
+        setLoading(true);
+        setMessage("");
 
         try {
             const res = await fetch(`${import.meta.env.VITE_API_URL}/login`, {
@@ -27,11 +36,13 @@ const Login = () => {
             if (!res.ok) throw new Error(data.message);
 
             //Store token
-            localStorage.setItem("token", data.token);
 
-            navigate("/bookings")
+            login(data.token);
+            navigate("/bookings");
         } catch (err) {
             setMessage(err.message)
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -41,14 +52,18 @@ const Login = () => {
             <input
                 name="email"
                 placeholder="Email"
-                onChange={handleChange} />
+                onChange={handleChange}
+                disabled={loading} />
+
             <input
                 name="password"
                 type="password"
                 placeholder="password"
-                onChange={handleChange} />
+                onChange={handleChange}
+                disabled={loading} />
 
-            <button type="submit">Login</button>
+            <button type="submit" disabled={loading}>
+                {loading ? "Logging in..." : "Login"}</button>
             <p>
                 Don't have an account? <Link to="/signup">Signup</Link>
             </p>
@@ -56,6 +71,6 @@ const Login = () => {
         </form >
     )
 
-}
+};
 
 export default Login;
