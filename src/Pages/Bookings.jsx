@@ -1,10 +1,14 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
+import { AuthContext } from "../context/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 const Bookings = () => {
-    const [bookings, setBookings] = useState([])
+    const [bookings, setBookings] = useState([]);
+    const navigate = useNavigate();
+    const { logout, token } = useContext(AuthContext);
 
     useEffect(() => {
-        const token = localStorage.getItem("token");
+
         fetch(`${import.meta.env.VITE_API_URL}/bookings?`, {
             headers: {
                 Authorization: `Bearer ${token}`,
@@ -12,7 +16,12 @@ const Bookings = () => {
             },
         })
             .then(res => {
-                if (!res.ok) throw new Errror("Failed to fetch");
+                if (res.status === 401) {
+                    logout();
+                    navigate("/login");
+                    return;
+                }
+                if (!res.ok) throw new Error("Failed to fetch");
                 return res.json();
             })
             .then(data => setBookings(data))
@@ -24,14 +33,16 @@ const Bookings = () => {
         <div className="bookings">
             <h2>All Bookings</h2>
 
-            {bookings.map((b) => (
-                <div key={b._id} className="ind-bookings">
-                    <p>{b.name}</p>
-                    <p>{b.date}</p>
-                    <p>{b.time}</p>
-                </div>
-            ))}
-        </div>
+            {
+                bookings.map((b) => (
+                    <div key={b._id} className="ind-bookings">
+                        <p>{b.name}</p>
+                        <p>{b.date}</p>
+                        <p>{b.time}</p>
+                    </div>
+                ))
+            }
+        </div >
     )
 }
 
