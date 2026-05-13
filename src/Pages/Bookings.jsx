@@ -37,8 +37,16 @@ const Bookings = () => {
                 bookings.map((b) => (
                     <div key={b._id} className="ind-bookings">
                         <p>{b.name}</p>
-                        <p>{b.date}</p>
-                        <p>{b.time}</p>
+                        <p>
+                            {new Date(b.appointmentTime).toLocaleString("en-KE", {
+                                dateStyle: "medium",
+                                timeStyle: "short",
+                            })}
+
+                        </p>
+
+
+
                     </div>
                 ))
             }
