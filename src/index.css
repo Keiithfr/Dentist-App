@@ -142,3 +142,23 @@ p {
   cursor: not-allowed;
 
 }
+
+.delete-btn {
+  padding: var(--space-sm);
+  border-radius: var(--radius);
+  font-size: var(--text-md);
+  font-family: 'Courier New', Courier, monospace;
+  font-weight: var(--weight-bold);
+  cursor: pointer;
+
+}
+
+.delete-btn:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.bookings-main-div {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
