@@ -1,8 +1,10 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
+import { AuthContext } from "../../context/AuthContext";
 import { useNavigate } from 'react-router-dom';
 import styles from './BookingForm.module.css';
 
 const BookingForm = ({ dentistId }) => {
+    const { user } = useContext(AuthContext);
     const [form, setForm] = useState({
         name: '',
         date: '',
@@ -10,12 +12,6 @@ const BookingForm = ({ dentistId }) => {
     })
     const [message, setMessage] = useState("")
     const [type, setType] = useState("")
-    let userId = localStorage.getItem("userId");
-
-    if (!userId) {
-        userId = crypto.randomUUID()
-        localStorage.setItem("userId", userId)
-    }
 
     useEffect(() => {
         if (message) {
@@ -37,8 +33,8 @@ const BookingForm = ({ dentistId }) => {
     const handleSubmit = async (e) => {
         e.preventDefault()
 
-        const token = localStorage.getItem("token");
-        if (!token) {
+
+        if (!user) {
             setMessage("Please login to make an appointment");
             setType("error");
             return;
@@ -57,8 +53,8 @@ const BookingForm = ({ dentistId }) => {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
-                    Authorization: `Bearer ${token}`,
                 },
+                credentials: "include",
                 body: JSON.stringify({
                     ...form,
                     dentistId,

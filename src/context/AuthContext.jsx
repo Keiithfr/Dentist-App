@@ -4,25 +4,53 @@ import { createContext, useState, useEffect } from "react";
 export const AuthContext = createContext();
 export const AuthProvider = ({ children }) => {
 
-    const [token, setToken] = useState(null);
+    const [user, setUser] = useState(null);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        const storedToken = localStorage.getItem("token");
-        setToken(storedToken)
+        const fetchUser = async () => {
+            try {
+                const res = await fetch(
+                    `${import.meta.env.VITE_API_URL}/me`, {
+                    credentials: "include"
+                }
+                );
+                if (res.ok) {
+                    const data = await res.json();
+
+                    setUser(data);
+                }
+            } catch (err) {
+                console.log(err);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchUser();
     }, []);
 
-    const login = (token) => {
-        localStorage.setItem("token", token);
-        setToken(token);
+    const login = (userData) => {
+        setUser(userData);
     };
 
-    const logout = () => {
-        localStorage.removeItem("token");
-        setToken(null);
+    const logout = async () => {
+        try {
+            await fetch(
+                `${import.meta.env.VITE_API_URL}/logout`, {
+                method: "POST",
+                credentials: "include"
+            }
+            );
+            setUser(null);
+        } catch (err) {
+            console.log(err);
+        }
+
     };
 
     return (
-        <AuthContext.Provider value={{ token, login, logout }}>
+        <AuthContext.Provider value={{ user, login, logout, loading }}>
             {children}
         </AuthContext.Provider>
     )

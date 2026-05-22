@@ -24,13 +24,14 @@ const Signup = () => {
                 headers: {
                     "Content-Type": "application/json",
                 },
+                credentials: "include",
                 body: JSON.stringify(form),
             });
 
             const data = await res.json();
             if (!res.ok) throw new Error(data.message)
 
-            login(data.token);
+            login(data.user);
             setForm({ email: "", password: "" })
             navigate("/bookings");
 

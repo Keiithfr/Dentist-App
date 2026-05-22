@@ -5,30 +5,35 @@ import { useNavigate } from "react-router-dom";
 const Bookings = () => {
     const [bookings, setBookings] = useState([]);
     const navigate = useNavigate();
-    const { logout, token } = useContext(AuthContext);
+    const { loading } = useContext(AuthContext);
     const [deletingId, setDeletingId] = useState(null);
+
+    if (loading) {
+        return <p>Loading...</p>
+    }
+    // if(!user){
+    //     navigate("/login");
+    //     return null;
+    // }
 
     useEffect(() => {
 
         fetch(`${import.meta.env.VITE_API_URL}/bookings?`, {
-            headers: {
-                Authorization: `Bearer ${token}`,
-
-            },
+            credentials: "include"
         })
             .then(res => {
-                if (res.status === 401) {
-                    logout();
-                    navigate("/login");
-                    return;
-                }
+                // if (res.status === 401) {
+                //     logout();
+                //     navigate("/login");
+                //     return;
+                // }
                 if (!res.ok) throw new Error("Failed to fetch");
                 return res.json();
             })
             .then(data => setBookings(data))
             .catch(err => console.error(err));
 
-    }, [token, logout, navigate]);
+    }, [navigate]);
 
     const handleDelete = async (id) => {
 
@@ -38,9 +43,7 @@ const Bookings = () => {
             const res = await fetch(
                 `${import.meta.env.VITE_API_URL}/bookings/${id}`, {
                 method: "DELETE",
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                },
+                credentials: "include"
             }
             );
 

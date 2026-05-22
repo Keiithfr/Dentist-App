@@ -6,9 +6,18 @@ import Navbar from './Components/Navbar/Navbar'
 import Login from "./Pages/Login";
 import Signup from "./Pages/Signup";
 import PrivateRoute from "./Components/PrivateRoute";
+import { useContext } from "react";
+import { AuthContext } from "./context/AuthContext";
 import './Styles/Variables.css'
 
 function App() {
+
+  const { loading } = useContext(AuthContext);
+  if (loading) {
+    return <div className="loading-screen">
+      <p>Loading...</p>
+    </div>
+  }
   return (
 
     <>

@@ -29,15 +29,16 @@ const Login = () => {
                 headers: {
                     "Content-Type": "application/json",
                 },
+                credentials: "include",
                 body: JSON.stringify(form)
             });
 
             const data = await res.json()
             if (!res.ok) throw new Error(data.message);
 
-            //Store token
+        
 
-            login(data.token);
+            login(data.user);
             navigate("/bookings");
         } catch (err) {
             setMessage(err.message)
