@@ -82,7 +82,7 @@ const BookingForm = ({ dentistId }) => {
         <form onSubmit={handleSubmit} className={styles.bookingform}>
             <input name="name" placeholder="Name" onChange={handleChange} />
             <input type="date" name="date" onChange={handleChange} />
-            <input type="time" name="time" onChange={handleChange} />
+            <input type="time" placeholder="utc" name="time" onChange={handleChange} />
 
             <button type="submit" disabled={loading}>
                 {loading ? "Booking..." : "Book"}
