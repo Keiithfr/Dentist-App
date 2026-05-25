@@ -1,6 +1,12 @@
+* {
+  /* outline: 1px solid red; */
+  box-sizing: border-box;
+}
+
 body {
   margin: 0;
   background-color: var(--bg);
+  overflow-x: hidden;
 }
 
 p {
@@ -48,11 +54,26 @@ p {
   align-items: center;
   padding: var(--space-lg);
 
+
+}
+
+@media(max-width:767px) {
+  .home {
+    grid-template-columns: 1fr;
+  }
+
+  .home h1 {
+    min-width: 0;
+    font-size: var(--text-lg);
+
+
+  }
 }
 
 .home h1 {
   line-height: var(--lh-normal);
   color: var(--text);
+
 }
 
 .signup-form {

@@ -4,6 +4,14 @@
     max-width: 300px;
     width: 100%;
     padding: var(--space-lg);
+
+}
+
+@media(max-width:767px) {
+    .dentistcard {
+        width: 100%;
+        min-width: 0;
+    }
 }
 
 .dentistcard p {
@@ -11,7 +19,7 @@
     color: var(--text);
 }
 
-.dentistcard button{
+.dentistcard button {
     padding: var(--space-sm);
     border-radius: var(--radius);
     font-weight: var(--weight-bold);
