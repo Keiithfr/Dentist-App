@@ -5,8 +5,10 @@ import DentistCard from '../Components/DentistCard/DentistCard'
 const Home = () => {
     return (
         <div className="home">
-            <h1>Modern Care for a <br />
-                Perfect Smile</h1>
+            <div className="h1-div">
+                <h1>Modern Care for a <br />
+                    Perfect Smile</h1>
+            </div>
 
             {Dentists.map((D) => (
                 <DentistCard key={D.id}{...D} />
